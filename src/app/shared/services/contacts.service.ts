@@ -1,11 +1,11 @@
-import { HostListener, Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Contact } from '../interfaces/contact.interface';
 import { CONTACTS_DATA, CONTACTS_KEY } from '../properties/app.properties';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ContactsService implements OnDestroy {
+export class ContactsService {
   private _contacts: Contact[] = [];
 
   constructor() {
@@ -14,12 +14,6 @@ export class ContactsService implements OnDestroy {
 
   get contacts(): Contact[] {
     return this._contacts;
-  }
-
-  @HostListener('window:onbeforeunload', ['$event'])
-  setToLocalStorage(): void {
-    localStorage.setItem(CONTACTS_KEY, JSON.stringify(this._contacts));
-    console.log('11');
   }
 
   createContact(newContact: Contact): void {
@@ -49,11 +43,6 @@ export class ContactsService implements OnDestroy {
 
   getContactById(id: number): Contact {
     return this._contacts.find((contact: Contact): boolean => contact.id == id)!;
-  }
-
-  ngOnDestroy(): void {
-    localStorage.setItem(CONTACTS_KEY, JSON.stringify(this._contacts));
-    console.log('11');
   }
 
   private fetchContacts(): void {
